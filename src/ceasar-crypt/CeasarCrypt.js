@@ -3,7 +3,7 @@ const { getAlphabetRange, shift, checkStringType } = require('./utils/index');
 
 class CeasarCrypt {
   constructor(shift) {
-    this.shift = shift;
+    this._shift = shift;
   }
 
   _shiftCode = (char, shiftValue) => {
@@ -18,11 +18,11 @@ class CeasarCrypt {
   }
 
   encode = (char) => {
-    return this._shiftCode(char, this.shift);
+    return this._shiftCode(char, this._shift);
   }
 
   decode = (char) => {
-    return this._shiftCode(char, -this.shift);
+    return this._shiftCode(char, -this._shift);
   }
 };
 
