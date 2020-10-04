@@ -1,19 +1,22 @@
 const path = require('path');
-const { pipeline } = require('stream');
 
 const { CaesarCli } = require('./src/utils/CaesarCli');
 const { CaesarIO } = require('./src/utils/CaesarIO');
 const { CeasarStream } = require('./src/utils/CeasarStream');
-
+const { CeasarCrypt } = require('./src/ceasar-crypt/CeasarCrypt');
 
 const { shift, action, input, output } = CaesarCli.parseParams(process.argv);
 
 const inputPath = path.resolve(__dirname, input);
 const outputPath = path.resolve(__dirname, output);
 
+const ceasarCrypt = new CeasarCrypt(parseInt(shift, 10));
+
 const readableStream = CaesarIO.getReadableStream(inputPath);
 const writableStream = CaesarIO.getWritableStream(outputPath);
-const ceasarStream = CeasarStream.getCeasarTransformStream((s) => s.toUpperCase());
+// todos
+const ceasarStream =
+  CeasarStream.getCeasarTransformStream(action === 'encode' ? ceasarCrypt.encode : ceasarCrypt.decode);
 
 readableStream
   .pipe(ceasarStream)
