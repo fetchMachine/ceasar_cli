@@ -1,7 +1,10 @@
 const path = require('path');
+const { pipeline } = require('stream');
 
 const { CaesarCli } = require('./src/utils/CaesarCli');
 const { CaesarIO } = require('./src/utils/CaesarIO');
+const { CeasarStream } = require('./src/utils/CeasarStream');
+
 
 const { shift, action, input, output } = CaesarCli.parseParams(process.argv);
 
@@ -10,5 +13,8 @@ const outputPath = path.resolve(__dirname, output);
 
 const readableStream = CaesarIO.getReadableStream(inputPath);
 const writableStream = CaesarIO.getWritableStream(outputPath);
+const ceasarStream = CeasarStream.getCeasarTransformStream((s) => s.toUpperCase());
 
-readableStream.pipe(writableStream);
+readableStream
+  .pipe(ceasarStream)
+  .pipe(writableStream);
