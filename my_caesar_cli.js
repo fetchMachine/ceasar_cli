@@ -7,10 +7,10 @@ const { CeasarCrypt } = require('./src/ceasar-crypt/CeasarCrypt');
 
 const { shift, action, input, output } = CaesarCli.parseParams(process.argv);
 
-const inputPath = path.resolve(__dirname, input);
-const outputPath = path.resolve(__dirname, output);
+const inputPath = input && path.resolve(__dirname, input);
+const outputPath = output && path.resolve(__dirname, output);
 
-const ceasarCrypt = new CeasarCrypt(parseInt(shift, 10));
+const ceasarCrypt = new CeasarCrypt(shift);
 
 const readableStream = CaesarIO.getReadableStream(inputPath);
 const writableStream = CaesarIO.getWritableStream(outputPath);
